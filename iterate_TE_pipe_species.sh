@@ -16,20 +16,18 @@ for i in */; do
 		continue
 	fi
 
-	if [[ $fa = 'Hv' ]]; then
-		continue
-	fi
-
-	if [[ $fa = 'ol' ]]; then
-		continue
-	fi
-
+	## exclude 'bin'
 	if [[ $fa = 'bi' ]]; then
 		continue
 	fi
 
+	## exclude 'data_analysis'
+	if [[ $fa = 'da' ]]; then
+		continue
+	fi
+
 	## for the good directories
-	cp bin/*.pl bin/*.sh bin/*.R $i
+	cp bin/*.pl bin/*.sh $i
         cd $i
 
 	## for species with data, 
@@ -44,6 +42,9 @@ for i in */; do
 	fi
 	
 	## launch mapping script to cluster
-	qsub -F ${fa} map_ACRs_TEs.v3.sh
+	qsub -F ${fa} map_ACRs_TEs.v4.sh
+
 	cd ../
+
+
 done	
