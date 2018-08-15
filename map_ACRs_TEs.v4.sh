@@ -155,6 +155,7 @@ echo "finished determining basic statistics of ACRs..."
 #rm ${FA}.ACR_TEmapped.bed
 #rm ${FA}.ACR_TEmapped.basic.bed
 
+
 ######################################
 ## test association (MC simulation) ##
 ######################################
