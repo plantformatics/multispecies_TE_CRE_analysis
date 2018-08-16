@@ -167,7 +167,9 @@ if [ -d 'temp' ];
 	else
 		mkdir temp
 fi
+
 cp estimate_proportions.pl ./temp
+cp estimate_proportions_family.pl ./temp
 
 echo "begin ACR permutation..."
 
