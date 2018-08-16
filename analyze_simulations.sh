@@ -22,7 +22,7 @@ echo "${FA} running TE - ACR analysis for species $FA ..."
 
 ## generate intermediate files from temp
 
-cp estimate_proportions_family.pl ./temp
+cp estimate_proportions_family.pl temp/
 cd ./temp
 for i in $(ls *.TE | rev | cut -c 4- | rev | uniq); do
 	echo "perl estimate_proportions_family.pl ${i}.TE ${i} > ${i}.ACR_TEfamstats.txt" >> estimateprops_fam.txt
