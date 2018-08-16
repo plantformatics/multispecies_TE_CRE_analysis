@@ -8,7 +8,7 @@
 #PBS -N processTEacr_pipe               ## job name                 ##
 #PBS -l nodes=40:ppn=1                  ## threading argument       ##
 #PBS -l walltime=48:00:00               ## total time running limit ##
-#PBS -l mem=10gb                        ## memory limit             ##
+#PBS -l mem=2gb                        ## memory limit              ##
 ##------------------------------------------------------------------##
 
 
