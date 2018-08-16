@@ -197,13 +197,15 @@ done;
 cd ./temp
 for i in $(ls *.TE | rev | cut -c 4- | rev | uniq); do
 	echo "perl estimate_proportions.pl ${i}.TE ${i} > ${i}.ACR_TEstats.txt" >> estimateprops.txt
+	echo "perl estimate_proportions_family.pl ${i}.TE ${i} > ${i}.ACR_TEfamstats.txt" >> estimateprops_fam.txt
 done
 
 
 ##-----------------------------##
 ## run reformating in parallel ##
 ##-----------------------------##
-time parallel --joblog log2.txt --jobs 40 < estimateprops.txt
+time parallel --joblog log2.class.txt --jobs 20 < estimateprops.txt
+time parallel --joblog log2.fam.txt --jobs 20 < estimateprops_fam.txt
 
 while [ -n "$PARALLEL_ENV" ]; do
 	(( num++ ))
@@ -222,10 +224,16 @@ done;
 cat *.ACR_TEstats.txt > ${FA}.allTEstats.txt1
 rm *.ACR_TEstats.txt
 
+cat *.ACR_TEfamstats.txt > ${FA}.allTEfamstats.txt1
+rm *.ACR_TEfamstats.txt
+
 grep -v 'centromeric' ${FA}.allTEstats.txt1 > test
 sed 's/Retroposon\tL1/Retroposon\tRetroposon/g' test > ${FA}.allTEstats.txt1
 
-cp ${FA}.allTEstats.txt1 ../
+grep -v 'centromeric' ${FA}.allTEfamstats.txt1 > test
+sed 's/Retroposon\tL1/Retroposon\tRetroposon/g' test > ${FA}.allTEfamstats.txt1
+
+cp ${FA}.allTEstats.txt1 ${FA}.allTEfamstats.txt1 ../
 rm test
 
 cd ../
@@ -234,6 +242,8 @@ cd ../
 perl sumsim.pl ${FA}.allTEstats.txt1 > ${FA}.allTEstats.txt
 rm ${FA}.allTEstats.txt1 
 
+perl sumsim.pl ${FA}.allTEfamstats.txt1 > ${FA}.allTEfamstats.txt
+rm ${FA}.allTEfamstats.txt1
 
 ##-------------------------------------##
 ## check if bin_scripts is a directory ##
@@ -249,12 +259,12 @@ fi
 mv *.pl *.sh bin_scripts/
 
 ## copy select files to data analysis directory
-cp ${FA}.allTEstats.txt ${FA}.annotated.ACR.distTE.bed ${FA}.ACR_TEmapped.bed.GF.cov ${FA}.ACR_TEstats.txt ../data_analysis
+cp ${FA}.allTEstats.txt ${FA}.allTEfamstats.txt ${FA}.annotated.ACR.distTE.bed ${FA}.ACR_TEmapped.bed.GF.cov ${FA}.ACR_TEstats.txt ../data_analysis
 
 ## remove intermediate command files
 rm commandlist.txt
 rm estimateprops.txt
-
+rm estimateprops_fam.txt
 
 
 ############
